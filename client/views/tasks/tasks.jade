@@ -1,0 +1,36 @@
+h3 TASKS
+
+form(name='taskForm', novalidate)
+  .form-group
+    label(for='title') Title
+    input.form-control#title(name='title', type='text', ng-model='task.title')
+  .form-group
+    label(for='dueDate') Due Date
+    input.form-control#dueDate(name='dueDate', type='date', ng-model='task.dueDate')
+  .form-group
+    label(for='priority') Priority
+    select.form-control#priority(name='priority', ng-model='task.priority')
+      option Low
+      option Medium
+      option High
+  .form-group
+    button.btn.btn-primary(ng-click='addTask(task)') Add Task
+    button.btn.btn-success(ng-click='saveEdit(task)') Save Edit
+table.table.table-striped
+  thead
+    tr
+      th Edit 
+      th Delete
+      th(ng-click='sort("title")') Title  
+      th(ng-click='sort("dueDate")') Due Date
+      th(ng-click='sort("isComplete")') Complete?
+      th Priority
+      th Created At
+  tbody
+    tr(ng-repeat='task in afTasks | orderBy:"taskOrder"', ng-class='{completed:task.isComplete}')
+      td: button.btn.btn-info.btn-xs(ng-click='editTask(task)') Edit
+      td: button.btn.btn-danger.btn-xs(ng-click='deleteTask(task)') Delete 
+      td {{task.title}}
+      td {{task.dueDate | date: 'yyyy-MM-dd'}}
+      td: input(type='checkbox', ng-model='task.isComplete', ng-click='toggleComplete(task)') 
+      td {{task.createdAt | date:'yyyy-MM-dd'}}
